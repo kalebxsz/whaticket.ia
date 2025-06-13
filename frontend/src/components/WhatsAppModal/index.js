@@ -156,7 +156,6 @@ const whatsappData = {
 
   const handleChangePrompt = (e) => {
     setSelectedPrompt(e.target.value);
-    setSelectedQueueIds([]);
   };
 
   const handleClose = () => {
