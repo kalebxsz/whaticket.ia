@@ -47,13 +47,27 @@ const ListTicketsService = async ({
   withUnreadMessages,
   companyId
 }: Request): Promise<Response> => {
+  const user = await ShowUserService(userId);
+  
   let whereCondition: Filterable["where"] = {
-    [Op.or]: [{ userId }, { status: "pending" }],
-    queueId: { [Op.or]: [queueIds, null] }
+    companyId
   };
-  let includeCondition: Includeable[];
 
-  includeCondition = [
+  // Se não for admin, filtra por usuário e filas permitidas
+  if (user.profile !== "admin") {
+    whereCondition = {
+      ...whereCondition,
+      [Op.or]: [
+        { userId }, // Tickets do próprio usuário
+        {
+          status: "pending",
+          queueId: { [Op.or]: [queueIds, null] } // Tickets pendentes apenas das filas permitidas
+        }
+      ]
+    };
+  }
+
+  let includeCondition: Includeable[] = [
     {
       model: Contact,
       as: "contact",
@@ -155,7 +169,6 @@ const ListTicketsService = async ({
   }
 
   if (withUnreadMessages === "true") {
-    const user = await ShowUserService(userId);
     const userQueueIds = user.queues.map(queue => queue.id);
 
     whereCondition = {
