@@ -251,4 +251,4 @@ REACT_APP_PAGE_LIMIT=20
 
 ---
 
-💡 **Nota**: Esta documentação é um guia técnico detalhado. Para informações de uso, consulte o manual do usuário. 
+💡 **Nota**: Esta documentação é um guia técnico detalhado. Para informações de uso, consulte o manual do usuário.
