@@ -103,6 +103,11 @@ interface IMessage {
   isLatest: boolean;
 }
 
+interface OpenAIMessage {
+  role: "system" | "user" | "assistant";
+  content: string;
+}
+
 const MESSAGE_CACHE_TTL = 300;
 
 export const isNumeric = (value: string) => /^-?\d+$/.test(value);
